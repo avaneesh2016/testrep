@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<parent>
+		<groupId>com.paypal.raptor.samples</groupId>
+		<artifactId>activityaggregatorserv</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>..</relativePath>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>activityaggregatorservService</artifactId>
+	<packaging>jar</packaging>
+
+	<dependencies>
+		<!-- APPLICATION DEPENDENCIES -->
+		<!-- pull the api project to implement your services based on interfaces 
+			and data model -->
+
+		<dependency>
+			<groupId>com.ebay.kernel</groupId>
+			<artifactId>DGTask</artifactId>
+		</dependency>
+
+		<dependency>
+			<artifactId>activityaggregatorservCommon</artifactId>
+			<groupId>com.paypal.raptor.activity.aggregator</groupId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.paypal.activity.logging</groupId>
+			<artifactId>logutil</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.paypal.raptor.samples</groupId>
+			<artifactId>activityaggregatorservApi</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.paypal.raptor.activity</groupId>
+			<artifactId>activityaggregatorservResource</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>infra</artifactId>
+					<groupId>com.paypal.infra</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<artifactId>activitybusinessprocessor</artifactId>
+			<groupId>com.paypal.raptor.samples</groupId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ebay.kernel</groupId>
+			<artifactId>DGTask</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.paypal.raptor.activity</groupId>
+			<artifactId>activityaggregatorservModel</artifactId>
+		</dependency>
+
+		<!-- These are your PPaaS specific framework dependencies -->
+		<!-- This also includes the PayPal ready REST Engine, server AND client -->
+		<dependency>
+			<groupId>com.paypal.raptor.springboot</groupId>
+			<artifactId>spring-boot-starter-raptor-ppaas</artifactId>
+		</dependency>
+
+		<!-- This is your ASF client engine -->
+		<dependency>
+			<groupId>com.ebayinc.platform.services</groupId>
+			<artifactId>asf-profile</artifactId>
+			<type>pom</type>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.kubek2k</groupId>
+			<artifactId>springockito-annotations</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.easymock/easymock -->
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<version>3.1</version>
+		</dependency>
+
+
+
+		<!-- UNCOMMENT THIS BLOCK IF YOU WANT TO USE OCC and DAL <dependency> <groupId>com.ebayinc.platform.occ</groupId> 
+			<artifactId>occ-paypal-profile</artifactId> <type>pom</type> </dependency> 
+			<dependency> <groupId>com.paypal.raptor.springboot</groupId> <artifactId>spring-boot-starter-raptor-dal</artifactId> 
+			</dependency> -->
+
+	</dependencies>
+
+	<build>
+
+		<plugins>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>com.paypal.raptor.plugins</groupId>
+				<artifactId>connectivity-maven-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>com.ebay.raptor.build</groupId>
+				<artifactId>assembler-maven-plugin</artifactId>
+				<configuration>
+					<!-- Altus will have a dropdown to select which deploymentType they 
+						will use as a paramter to the archetype command. -->
+					<deploymentType>mid-tier</deploymentType>
+					<appPackages>
+						<cronusPackage>
+							<name>activityaggregatorserv</name>
+							<version>${project.version}_{timestamp}</version>
+							<sources>
+								<source>${basedir}/target/app</source>
+							</sources>
+						</cronusPackage>
+					</appPackages>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>com.ebay.raptor.build</groupId>
+				<artifactId>metadata-maven-plugin</artifactId>
+			</plugin>
+
+			
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<configuration>
+					<instrumentation>
+						<excludes>
+							<exclude>com/paypal/raptor/activity/service/impl/Profile.class</exclude>	
+						</excludes>
+                   		 <ignoreTrivial>true</ignoreTrivial>
+					</instrumentation>
+				</configuration>
+			</plugin>
+
+		</plugins>
+
+	</build>
+</project>
+
